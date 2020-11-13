@@ -1,4 +1,27 @@
-<p><a href="/addrecord">Add new</a></p>
-<p><a href="/getrecord">get record</a></p>
-<p><a href="/mineblock"><button>Mine block now!</button></a></p>
+<%-include("./partials/header.ejs")%>
+
+<div class="jumbotron jumbotron-fluid" style="padding-top: 40px; padding-bottom: 40px;">
+    <div class="container">
+      <h1 class="display-4 text-center mb-3">Dashboard</h1>
+        <div class=" d-flex justify-content-between mb-3">
+            <a type="button" class="btn  btn-outline-success d-flex justify-content-between" href="/addrecord">
+                <span>Add New Record</span>
+            </a>
+            <a type="button" class="btn  btn-outline-dark d-flex justify-content-between" href="/allrecord">
+                <span>View all blocks</span>
+            </a>
+            <a type="button" class="btn  btn-outline-primary d-flex justify-content-between" href="/getrecord">
+                <span>Search Record</span>
+            </a>
+        </div>
+        <div class=" d-flex justify-content-center">
+            <a type="button" class="btn  btn-outline-danger d-flex justify-content-between" href="/mineblock" style="width: 60%;">
+                <span>Mine Block</span> <span><i class="fas fa-plus"></i></span> 
+            </a>
+        </div>
+    </div>
+</div>
+
+<%-include("./partials/footer.ejs")%>
+
 

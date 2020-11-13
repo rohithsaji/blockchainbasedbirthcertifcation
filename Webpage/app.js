@@ -2,6 +2,22 @@ var express=require("express");
 var app=express();
 var request=require("request");
 var bodyParser=require("body-parser");
+var flash=require("connect-flash");
+var passport=require("passport");
+app.use(flash());
+
+app.use(require("express-session")({
+    secret:"Se project",
+    resave: false,
+    saveUninitialized:false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(function(req,res,next){
+    res.locals.error=req.flash("error");
+    res.locals.success=req.flash("success");
+    next();
+});
 
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -12,7 +28,14 @@ app.get("/addrecord",function(req,res){
     res.render("addrecord.ejs");
 });
 app.get("/allrecord",function(req,res){
-    res.render("allrecord.ejs");
+    var Url="http://0.0.0.0:5000/get_chain";
+    request(Url,function(er,response){
+        if(!er && res.statusCode==200){
+            var Body=JSON.parse(response.body);
+            console.log(Body);
+            res.render("allrecord.ejs",{data:Body});
+        }
+    });
 });
 app.get("/getrecord",function(req,res){
     res.render("getrecord.ejs");
@@ -25,18 +48,20 @@ app.get("/mineblock",function(req,res){
             var Body=JSON.parse(response.body);
             console.log(Body);
             var Index=Body.index;
-            var ID=Body.transactions[0].Id;
-            console.log(Index);
-            console.log(ID);
-
-            const msg="Block has been mined!"
-            res.render("displaynew.ejs",{msg : msg,index: Index,id:ID})
+            if(Body.transactions.length<=0){
+                req.flash("error","No records to be mined!");
+                res.redirect("/");
+            }
+            else{
+                req.flash("success","Block has been mined!");
+                res.redirect("/");
+            }
             
         }
         else{
             console.log(error);
-            const msg="Error try again"
-            res.render("display.ejs",{msg : msg});
+            req.flash("error","Error try again!");
+            res.redirect("/");
         }
 
     });
@@ -65,14 +90,15 @@ app.post("/addrecord",function(req,res){
         if(!error && response.statusCode==201)
         {
             console.log(response);
-            const msg="New record is added and waiting to be mined(Mine to view in blockchain)"
-            res.render("displayadd.ejs",{msg : msg})
+            // console.log(Body);
+            req.flash("success",response.body.message);
+            res.redirect("/");
             
         }
         else{
             console.log(error);
-            const msg="Please ensure all attributes are filled."
-            res.render("display.ejs",{msg : msg});
+            req.flash("error","Please ensure all attributes are filled.");
+            res.redirect("/");
         }
 
     });
@@ -98,11 +124,12 @@ app.get("/fetchrecord",function(req,res){
             res.render("results.ejs",{data : body})
         }
         else if(response.statusCode==400){
-            const msg="Record Doesnt exist for id sent!"
-            res.render("display.ejs",{msg : msg});
+            req.flash("error","Record Doesnt exist for id sent!");
+            res.redirect("/");
         }
         else{
-            res.send("error has occured go baxk and try again");
+            req.flash("error","Error has occured go back and try again");
+            res.redirect("/");
         }
 
     });

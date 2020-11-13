@@ -1,22 +1,29 @@
-<h1>Your Birth certificate</h1>
+<%-include("./partials/header.ejs")%>
 
-<p>
-    Id:<%=data.Id%>
-</p>
-<p>
-    First Name:<%=data.First_Name%>
-</p>
-<p>
-    Last Name:<%=data.Last_Name%>
-</p>
-<p>
-    <strong>Date Of Birth:<%=data.dob%></strong>
-</p>
-<p>
-    Time of Birth:<%=data.time%>
-</p>
-<p>
-    Certifiedby:<%=data.certifiedby%>
-</p>
+<div class="container mt-5" style="margin-top: 20px;">
+    <h1 class="mb-5"style="text-align: center;">Birth Certificate of <%=data.First_Name%> <%=data.Last_Name%></h1>
+    <div class="card">
+            <div class="card-header">
+              ID: <%=data.Id%>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Name: <%=data.First_Name%> <%=data.Last_Name%></h5>
+              <div class="d-flex justify-content-between">
+                <span>Location: <%=data.Location%></span>
+                <span style="color: #007bff;"><strong>Date Of Birth: <%=data.dob%></strong></span>
+                <span>Time Of Birth: <%=data.time%></span>
+                
+              </div>
+            </div>
+            <div class="card-footer text-muted">
+              Certified By: <%=data.certifiedby%>
+            </div>
+    </div>
 
-<p><a href="/"> Go back!</a></p>
+</div>
+
+
+
+
+<%-include("./partials/footer.ejs")%>
+

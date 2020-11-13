@@ -158,7 +158,7 @@ def connect_node():
         return "No node", 400
     for node in nodes:
         blockchain.add_node(node)
-    response = {'message': 'All the nodes are now connected. The Hadcoin Blockchain now contains the following nodes:',
+    response = {'message': 'All the nodes are now connected',
                 'total_nodes': list(blockchain.nodes)}
     return jsonify(response), 201
 
@@ -179,7 +179,7 @@ def get_record():
 def replace_chain():
     is_chain_replaced = blockchain.replace_chain()
     if is_chain_replaced:
-        response = {'message': 'The nodes had different chains so the chain was replaced by the longest one.',
+        response = {'message': 'The chain was replaced by the longest one.',
                     'new_chain': blockchain.chain}
     else:
         response = {'message': 'The chain is the largest one.',

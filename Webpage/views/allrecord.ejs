@@ -1,1 +1,41 @@
-alll
+<%-include("./partials/header.ejs")%>
+
+<div class="container mt-5" style="margin-top: 20px;">
+    <h3 style="text-align: center;">Full Block Chain</h3>
+    <p class="text-muted mb-1"><%=data.chain.length%> block(s) were found</p>
+    <%data.chain.forEach(function(block){ %>
+        <div class="d-flex justify-content-center mb-2">
+            <div class="card d-flex justify-content-center" style="width:70%">
+                <h5 class="card-header">Index : <%=block.index%></h5>
+                <div class="card-body">
+                  <p class="mb-2">Previous Hash : <%=block.previous_hash%></p>
+                  <p class="mb-2">Proof : <%=block.proof%></p>
+                  <h5 class="card-title">Records :</h5>
+                  <p class="text-muted mb-1"><%=block.records.length%> record(s) were found</p>
+                  <%block.records.forEach(function(rec){%>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <span>First Name: <%=rec.First_Name%></span>
+                            <span>Last Name: <%=rec.Last_Name%></span>
+                            <span><strong>ID: <%=rec.Id%></strong></span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                                <span>Location: <%=rec.Location%></span>
+                                <span style="color: #007bff;"><strong>Date Of Birth: <%=rec.dob%></strong></span>
+                                <span>Time Of Birth: <%=rec.time%></span>
+                        </div>
+                        <p>Certified by: <%=rec.certifiedby%></p>
+                  <%});%>
+                  <p class="text-muted mb-1">Time Stamp: <%=block.timestamp%></p>
+                </div>
+            </div>
+        </div>
+
+    <%});%>
+
+</div>
+
+
+
+
+<%-include("./partials/footer.ejs")%>
